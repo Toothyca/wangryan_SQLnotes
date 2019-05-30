@@ -74,25 +74,65 @@ public class MainActivity extends AppCompatActivity {
     public void searchData(View view)
     {
         Log.d("MyContactApp", "Main Activity: displaying some data");
-        Cursor res = myDb.getSomeData(editName.getText().toString(), editUsername.getText().toString(), editSocial.getText().toString());
+        Cursor res = myDb.getAllData();
+
+        String name = editName.getText().toString();
+        String username = editUsername.getText().toString();
+        String social = editSocial.getText().toString();
+
+        boolean display = false;
+
         if(res.getCount() == 0)
         {
             showMessage("Error", "No data found in database");
             return;
         }
 
+        if(name.equals("") && username.equals("") && social.equals(""))
+        {
+            showMessage("Error", "No parameters entered");
+            return;
+        }
+
         StringBuffer buffer = new StringBuffer();
+
         while(res.moveToNext())
         {
-            //moves from row to row for different contacts, individual info is in different columns
-            //Append res columns to buffer - look at StringBuffer and Cursor API
-            buffer.append("ID: " + res.getString(0) + "\n");
-            buffer.append("Name: " + res.getString(1) + "\n");
-            buffer.append("Username: " + res.getString(2) + "\n");
-            buffer.append("SSN: " + res.getString(3) + "\n\n");
+            String searchName = res.getString(1);
+            String searchUsername = res.getString(2);
+            String searchSocial = res.getString(3);
 
+            if (name.equals(""))
+            {
+                searchName = "";
+            }
 
+            if (username.equals(""))
+            {
+                searchUsername = "";
+            }
+
+            if (social.equals(""))
+            {
+                searchSocial = "";
+            }
+
+            if(name.equals(searchName) && username.equals(searchUsername) && social.equals(searchSocial))
+            {
+                Log.d("MyContactApp", "It worked");
+                buffer.append("ID: " + res.getString(0) + "\n");
+                buffer.append("Name: " + res.getString(1) + "\n");
+                buffer.append("Username: " + res.getString(2) + "\n");
+                buffer.append("SSN: " + res.getString(3) + "\n\n");
+                display = true;
+            }
         }
+        if (!display)
+        {
+            showMessage("Error", "No contacts with entered parameters");
+            return;
+        }
+
         showMessage("Data", buffer.toString());
     }
 

@@ -76,12 +76,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getSomeData(String name, String username, String social)
     {
         Log.d("MyContactApp", "DatabaseHelper: getting some data");
-        if (name == null)
-        {
-
-        }
+        boolean namepresent = false;
+        boolean usernamepresent = false;
+        boolean socialpresent = false;
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("select * from " + TABLE_NAME, new String[]{name, username, social});
+
+        if (name.length() == 0)
+        {
+            Log.d("MyContactApp", "DatabaseHelper: name is null");
+            namepresent = true;
+        }
+
+        if (username.length() == 0)
+        {
+            Log.d("MyContactApp", "DatabaseHelper: username is null");
+            usernamepresent = true;
+        }
+
+        if (social.length() == 0)
+        {
+            Log.d("MyContactApp", "DatabaseHelper: social is null");
+            socialpresent = true;
+        }
+
+        String[] stuff = new String[]{name, username};
+        Cursor res = db.rawQuery("select * from " + TABLE_NAME + " where " + COLUMN_NAME_CONTACT + " =?", stuff);//new String[]{name, username, social});
         return res;
+
     }
 }
