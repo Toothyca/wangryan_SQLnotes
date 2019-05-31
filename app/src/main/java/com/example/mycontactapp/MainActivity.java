@@ -37,12 +37,13 @@ public class MainActivity extends AppCompatActivity {
 
         if (isInserted == true)
         {
-            Toast.makeText(MainActivity.this, "Success - contact inserted", Toast.LENGTH_LONG);
+            Toast.makeText(MainActivity.this, "Success - contact inserted", Toast.LENGTH_LONG).show();
         }
         else
         {
-            Toast.makeText(MainActivity.this, "FAILED - contact not inserted", Toast.LENGTH_LONG);
+            Toast.makeText(MainActivity.this, "FAILED - contact not inserted", Toast.LENGTH_LONG).show();
         }
+
     }
 
     public void viewData(View view)
